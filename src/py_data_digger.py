@@ -19,7 +19,7 @@ class SeekError(ValueError):
         path_items = [original_data_name] + [
             str(a) for a in accessors[: current_accessor_index + 1]
         ]
-        self.message = f"Data digger can't go any further: {error_name} Path found: {' -> '.join(path_items)}"
+        self.message = f"Data digger can't go any further: {error_name}\nPath found: {' -> '.join(path_items)}"
         super().__init__(self.message)
 
 
