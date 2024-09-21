@@ -142,4 +142,4 @@ def _look_for_object_attribute(
     try:
         return getattr(result, accessors[index])
     except AttributeError as e:
-        raise SeekError(index, type(original_data), accessors) from e
+        raise SeekError(index, original_data, accessors, e) from e
