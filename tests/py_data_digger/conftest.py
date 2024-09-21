@@ -1,6 +1,7 @@
 class SomeObject:
     def __init__(self) -> None:
         self.nested_dict = {"nested_array": [9, 8, 7]}
+        self.nested_string = "This is a string inside object"
 
 
 def dict_example() -> dict:
@@ -15,6 +16,7 @@ def dict_example() -> dict:
             "sub_item_tuple": ("x", "y", "z"),
             "sub_item_object": SomeObject(),
         },
+        "keys": ["The key 1", "The key 2"],
     }
 
 
