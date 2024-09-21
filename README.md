@@ -41,13 +41,13 @@ Suppose we want to take the list of components of the engine of a machine (the o
 components: list = nasty_dict["machines"][0]["engine"]["components"]
 ```
 
-This is unsafe because if its highly prone to raise `IndexError`, `KeyError`, `TypeError` if you use the wrong key/index or if the data just isn't there.
+This is unsafe because it is highly prone to raise `IndexError`, `KeyError`, `TypeError` if you use the wrong key/index or if the data just isn't there.
 
 ### 😴 The safe (but boring) strategy:
 ```python
 machines: list | None = nasty_dict.get("machines", None)
 machine: dict | None = machines[0] if machines is not None and len(machines) > 0 else None
-engine: list | None = machine.get("engine", None) if machine is not None else None
+engine: dict | None = machine.get("engine", None) if machine is not None else None
 components: list | None: engine.get("components", None) if engine is not None else None
   
 ```
@@ -64,7 +64,7 @@ Let's consider the `nasty_dict` from the past section and that we also want to a
 components: list | None = dig(nasty_dict, "machines", 0, "engine", "components")
 ```
 
-That's it! All the access problems are solved. If the data you want isn't there, it returns None and you can just **move on**!
+That's it! All the access problems are solved. If the data you want isn't there, it returns `None` and you can just **move on**!
 ```python
 components: list | None = dig(nasty_dict, "machines", 0, "engine_2", "components")
 if components is None:
@@ -74,7 +74,7 @@ if components is None:
 ## Introducing `seek`
 Not satisfied with `None` returns?
 
-The `seek` method works just like `dig`, but it will raise an error if the path informed could not be found.
+The `seek` function works just like `dig`, but it will raise an error if the path informed could not be found.
 
 ```python
 components: list = seek(nasty_dict, "machines", 0, "engine_2", "components")
@@ -84,9 +84,9 @@ Path found: dict -> machines -> 0 -> engine_2
 
 The cool thing is, you would need to handle just one exception (`SeekError`). It also shows where it failed to seek 😎
 
-### Seeking/digging objects
+## Seeking/digging objects
 And there is more!
-If you also want to look inside object attributes, you may do it passing a special flag.
+If you also want to look inside object attributes, you may do it by passing a special flag.
 This way it will be compatible with any nested objects like **Pydantic** models and **dataclasses**!
 ```python
   person = Person(name='John Doe')
@@ -107,4 +107,4 @@ This way it will be compatible with any nested objects like **Pydantic** models 
   >>> SeekError
 ```
 
-⚠️ The special flag is required because it may conflict with other mapped keys. Use with caution.
+⚠️ The special flag is required because attribute names may conflict with other mapped keys. Use with caution.
