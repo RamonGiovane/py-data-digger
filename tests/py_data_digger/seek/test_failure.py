@@ -1,6 +1,40 @@
 from pytest import raises
 
 from src.py_data_digger import SeekError, seek
+from tests.py_data_digger.conftest import dict_example
+
+
+class TestSeekFailureWithDictInput:
+    """Test the method's sad path with dict as initial input."""
+
+    @staticmethod
+    def test_dict_key_error() -> None:
+        test_dict = dict_example()
+
+        with raises(KeyError):
+            test_dict["unknow_key"]
+
+        with raises(SeekError) as ex_info:
+            seek(test_dict, "unknow_key")
+
+        assert type(ex_info.value.__cause__) is KeyError
+        assert "Path traveled: dict -> unknow_key" in ex_info.value.message
+
+    @staticmethod
+    def test_dict_nested_key_error() -> None:
+        test_dict = dict_example()
+
+        with raises(KeyError):
+            test_dict["nested_dict"]["sub_item_dict"]["unknow_key"]
+
+        with raises(SeekError) as ex_info:
+            seek(test_dict, "nested_dict", "sub_item_dict", "unknow_key")
+
+        assert type(ex_info.value.__cause__) is KeyError
+        assert (
+            "Path traveled: dict -> nested_dict -> sub_item_dict -> unknow_key"
+            in ex_info.value.message
+        )
 
 
 class TestSeekFailureWithStringInput:
@@ -37,27 +71,31 @@ class TestSeekFailureWithStringInput:
         test_str = "Lorem ipsum dolor sit amet"
 
         with raises(TypeError) as ex_info:
-            test_str['islower']
+            test_str["islower"]
         assert "string indices must be integers, not 'str'" in str(ex_info.value)
 
         with raises(SeekError) as ex_info:
-            seek(test_str, 'islower')
+            seek(test_str, "islower")
 
         assert type(ex_info.value.__cause__) is TypeError
         assert "Path traveled: str -> islower" in ex_info.value.message
 
     @staticmethod
-    def test_string_attribute_error_when_seek_objects_is_on_but_there_is_no_attribute_with_given_name() -> None:
+    def test_string_attribute_error_when_seek_objects_is_on_but_there_is_no_attribute_with_given_name() -> (
+        None
+    ):
         test_str = "Lorem ipsum dolor sit amet"
 
         with raises(AttributeError) as ex_info:
-            getattr(test_str, '_islower2')  # noqa: B009
+            getattr(test_str, "_islower2")  # noqa: B009
         assert "'str' object has no attribute '_islower2'" in str(ex_info.value)
 
         with raises(SeekError) as ex_info:
-            seek(test_str, '_islower2', seek_objects=True)
+            seek(test_str, "_islower2", seek_objects=True)
 
         assert type(ex_info.value.__cause__) is AttributeError
         assert type(ex_info.value.__cause__) is AttributeError
-        assert "'str' object has no attribute '_islower2'" in str(ex_info.value.__cause__)
+        assert "'str' object has no attribute '_islower2'" in str(
+            ex_info.value.__cause__
+        )
         assert "Path traveled: str -> _islower2" in ex_info.value.message
