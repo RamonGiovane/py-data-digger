@@ -52,14 +52,14 @@ components: list | None: engine.get("components", None) if engine is not None el
   
 ```
 
-This is not only tedious but labourous!
-At least, it's safe. We would not raise errors.
+This is not only tedious but labourious!
+At least, it's safe. We would not raise errors to break our code.
 
 
 ## Introducing `dig`
 With this tool we may quickly and securely navigate through all sorts of nested data.
 
-Let's consider the nasty_dict from the past section and that we also want to access the list of components.
+Let's consider the `nasty_dict` from the past section and that we also want to access the list of components.
 ```python
 components: list | None = dig(nasty_dict, "machines", 0, "engine", "components")
 ```
@@ -107,4 +107,4 @@ This way it will be compatible with any nested objects like **Pydantic** models 
   >>> SeekError
 ```
 
-⚠️ The special flag is required because it may conflict with other mapping keys. Use with caution.
+⚠️ The special flag is required because it may conflict with other mapped keys. Use with caution.
