@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "py-data-digger"
+version = "0.1.0"
+description = "Safely navigate through unsafe data: dicts, tuples, lists, strings and objects"
+authors = ["Ramon G. Dias <ramon.giovane@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "*", from="src"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.6.6"
+pytest = "^8.3.3"
+pre-commit = "^3.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
