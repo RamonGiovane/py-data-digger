@@ -46,7 +46,7 @@ This is unsafe because it is highly prone to raise `IndexError`, `KeyError`, `Ty
 ### 😴 The safe (but boring) strategy:
 ```python
 machines: list | None = nasty_dict.get("machines", None)
-machine: dict | None = machines[0] if machines is not None and len(machines) > 0 else None
+machine: dict | None = next(iter(machines), None) if machines else None
 engine: dict | None = machine.get("engine", None) if machine is not None else None
 components: list | None: engine.get("components", None) if engine is not None else None
   
