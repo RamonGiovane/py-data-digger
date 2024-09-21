@@ -1,0 +1,31 @@
+repos:
+    -   repo: local
+        hooks:
+            -   id: breakpoint-check
+                name: Check for breakpoint calls
+                description: This hook checks for any calls to breakpoint.
+                entry: sh -c 'find . -name "*.py" ! -path "./venv/*" -exec grep -Hn "breakpoint(" {} +; test $? -ne 0'
+                language: system
+                types: [ python ]
+
+    -   repo: https://github.com/astral-sh/ruff-pre-commit
+        rev: v0.6.6
+        hooks:
+            -   id: ruff
+                args: [ --fix, --preview ]
+
+    -   repo: https://github.com/rubik/xenon
+        rev: v0.9.1
+        hooks:
+            -   id: xenon
+                exclude: ^(tests|migrations)/
+                args:
+                    - --max-absolute=B
+                    - --max-modules=B
+                    - --max-average=B
+                description: Analyze code complexity with Xenon
+
+    -   repo: https://github.com/jorisroovers/gitlint
+        rev: v0.19.1
+        hooks:
+            -   id: gitlint
