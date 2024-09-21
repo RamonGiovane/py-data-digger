@@ -1,0 +1,84 @@
+lint.select = [
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "F", # pyflakes
+    "I", # isort
+    "C", # flake8-comprehensions
+    "C4", # flake8-comprehensions
+    "B", # flake8-bugbear
+    "ANN", # flake8-annotations
+    "S", # flake8-bandit
+    "A", # flake8-builtins
+    "LOG", # flake8-logging
+    "COM", # flake8-commas
+    "TD", # flake8-todos
+    "FIX", # flake8-fix-me
+    "ARG", # flake8-unused-arguments
+    "SIM", # flake8-simplify
+    "RET", # flake8-return
+    "ISC", # flake8-implicit-str-concat
+    "N", # pep8 naming
+    "D", # pydocstyle
+    "C901", # Complex structure
+    "ERA", # eradicate
+    "TRY", # tryceratops
+    "FLY", # flynt
+    "PERF", # Perflint
+    "FURB", # refurb
+    "RUF", # ruff specific rules
+]
+
+lint.ignore = [
+    "E501", # line too long, handled by blue
+    "D100", # Missing docstring in public module
+    "D104", # Missing docstring in public package
+    "D106", # Missing docstring in internal class
+    "D105", # Missing docstring in magic method
+    "D107", # Missing docstring in __init__
+    "ANN101", # Missing type self
+    "ANN102", # Missing type cls
+    'ANN003', # Missing type kwargs
+    "RUF100", # unused-noqa
+    "PERF203", # `try`-`except` within a loop incurs performance overhead
+   "COM812", # missing-trailing-comma
+   'ISC001', # single-line-implicit-string-concatenation
+]
+
+lint.unfixable = ["B"]
+
+# Ruff will use unstable rules, fixes, and formatting.
+preview = true
+
+# Allow unused variables when underscore-prefixed.
+lint.dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+line-length = 100
+
+[format]
+quote-style = "single"
+docstring-code-format = true
+
+[lint.flake8-quotes]
+docstring-quotes = "double"
+
+[lint.extend-per-file-ignores]
+"tests/*.py" = [
+    "S101", # Use of assert detected
+    "D101", # Missing docstring in public class
+    "D102", # Missing docstring in public method
+    "D103", # Missing docstring in public function
+    "D106", # Missing docstring in nested class
+    "S105", # Possible hardcoded password assigned to argument
+    "S106", # Possible hardcoded password assigned to argument
+
+
+]
+
+[lint.pydocstyle]
+# Use Google-style docstrings.
+convention = "google"
+
+[lint.per-file-ignores]
+    "src/api/**.py" = ["B008"] # Do not perform function call in argument defaults
+    "src/api/billing_route.py" = ["A002"] # Argument `type` is shadowing a Python builtin
+    "src/jobs/email_sender_job.py" = ["RUF029"] # Function marked as async but does not call await. This is needed for ARQ.
