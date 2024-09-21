@@ -79,7 +79,7 @@ The `seek` function works just like `dig`, but it will raise an error if the pat
 ```python
 components: list = seek(nasty_dict, "machines", 0, "engine_2", "components")
 >>> SeekError: Data digger can't go any further: KeyError
-Path found: dict -> machines -> 0 -> engine_2
+Path traveled: dict -> machines -> 0 -> engine_2
 ```
 
 The cool thing is, you would need to handle just one exception (`SeekError`). It also shows where it failed to seek 😎
