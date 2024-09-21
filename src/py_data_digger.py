@@ -1,8 +1,5 @@
 from typing import Any, List, Mapping, Sequence, Union
 
-LIST_INDICES_MUST_BE_INTEGERS_MSG = "list indices must be integers or slices, not"
-OBJECT_IS_NOT_SUBSCRIPTABLE_MSG = "object is not subscriptable"
-
 
 class SeekError(ValueError):
     """Raised when the seek method fails to go further."""
@@ -77,18 +74,11 @@ def seek(
     for index, accessor in enumerate(accessors):
         try:
             result = result[accessor]
-        except (KeyError, ValueError) as e:
-            raise SeekError(index, data, accessors, e) from e
-        except TypeError as e:
-            error = SeekError(index, data, accessors, e)
+        except (TypeError, IndexError, KeyError, ValueError) as e:
             if seek_objects:
                 result = _look_for_object_attribute(result, data, accessors, index)
-                continue
-            if LIST_INDICES_MUST_BE_INTEGERS_MSG in str(e):
-                raise error from e
-            if OBJECT_IS_NOT_SUBSCRIPTABLE_MSG in str(e):
-                raise error from e
-            raise error from e
+            else:
+                raise SeekError(index, data, accessors, e) from e
     return result
 
 
