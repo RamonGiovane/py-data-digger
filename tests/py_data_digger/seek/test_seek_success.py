@@ -1,9 +1,11 @@
 from types import BuiltinFunctionType
 
+from pydantic import BaseModel
 from pytest import raises
 
 from src.py_data_digger import SeekError, seek
 from tests.py_data_digger.conftest import (
+    PydanticModel,
     SomeObject,
     array_example,
     dict_example,
@@ -313,6 +315,50 @@ class TestSeekSuccessWithObjectInput:
             8,
             7,
         ]
+
+    @staticmethod
+    def test_nested_pydantic_models() -> None:
+        test_obj = SomeObject()
+
+        assert isinstance(test_obj.nested_pydatic_model, BaseModel)
+        assert isinstance(
+            seek(test_obj, "nested_pydatic_model", seek_objects=True), BaseModel
+        )
+
+        assert test_obj.nested_pydatic_model.nested_dict["a"] == 1
+        assert (
+            seek(
+                test_obj, "nested_pydatic_model", "nested_dict", "a", seek_objects=True
+            )
+            == 1
+        )
+
+
+class TestSeekSuccessWithPydanticModelInput:
+    """Test the method's happy path with object as initial input."""
+
+    @staticmethod
+    def test_nested_strings() -> None:
+        test_obj = PydanticModel()
+
+        assert test_obj.name == "John Doe"
+        assert seek(test_obj, "name", seek_objects=True) == "John Doe"
+
+        assert test_obj.name[0] == "J"
+        assert seek(test_obj, "name", 0, seek_objects=True) == "J"
+
+        assert test_obj.name[-1] == "e"
+        assert seek(test_obj, "name", -1, seek_objects=True) == "e"
+
+    @staticmethod
+    def test_nested_dicts() -> None:
+        test_obj = PydanticModel()
+
+        assert test_obj.nested_dict == {"a": 1}
+        assert seek(test_obj, "nested_dict", seek_objects=True) == {"a": 1}
+
+        assert test_obj.nested_dict["a"] == 1
+        assert seek(test_obj, "nested_dict", "a", seek_objects=True) == 1
 
 
 class TestSeekSuccessWithStringInput:
