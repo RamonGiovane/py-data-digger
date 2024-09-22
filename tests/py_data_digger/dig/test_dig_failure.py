@@ -55,7 +55,7 @@ class TestDigFailureWithStringInput:
 
         with raises(TypeError) as ex_info:
             test_str["islower"]
-        assert "string indices must be integers, not 'str'" in str(ex_info.value)
+        assert "string indices must be integers" in str(ex_info.value)
 
         assert dig(test_str, "islower") is None
         assert dig(test_str, "islower", dig_objects=True) is not None

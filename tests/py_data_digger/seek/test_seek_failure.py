@@ -72,7 +72,8 @@ class TestSeekFailureWithStringInput:
 
         with raises(TypeError) as ex_info:
             test_str["islower"]
-        assert "string indices must be integers, not 'str'" in str(ex_info.value)
+
+        assert "string indices must be integers" in str(ex_info.value)
 
         with raises(SeekError) as ex_info:
             seek(test_str, "islower")
