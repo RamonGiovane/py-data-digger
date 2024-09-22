@@ -16,6 +16,7 @@ ruff = "^0.6.6"
 pytest = "^8.3.3"
 pre-commit = "^3.8.0"
 coverage = "^7.6.1"
+pydantic = "^2.9.2"
 
 [build-system]
 requires = ["poetry-core"]
