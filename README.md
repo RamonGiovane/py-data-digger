@@ -1,3 +1,5 @@
+![example workflow](https://github.com/RamonGiovane/py-data-digger/actions/workflows/python-app.yml/badge.svg?branch=main)
+
 # py-data-digger
 Safely navigate through unsafe data: dicts, tuples, lists, strings and objects
 
