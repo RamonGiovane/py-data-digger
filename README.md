@@ -12,6 +12,8 @@ Sometimes you don't want to deal with Python exceptions when accessing lists and
 **No ifs, no try-excepts!**
 
 ```python
+from py_data_digger import dig
+
 components: list | None = dig(nasty_dict, "machines", 0, "engine", "components")
 ```
 
@@ -63,6 +65,8 @@ With this tool we may quickly and securely navigate through all sorts of nested 
 
 Let's consider the `nasty_dict` from the past section and that we also want to access the list of components.
 ```python
+from py_data_digger import dig
+
 components: list | None = dig(nasty_dict, "machines", 0, "engine", "components")
 ```
 
@@ -79,6 +83,9 @@ Not satisfied with `None` returns?
 The `seek` function works just like `dig`, but it will raise an error if the path informed could not be found.
 
 ```python
+from py_data_digger import seek
+
+
 components: list = seek(nasty_dict, "machines", 0, "engine_2", "components")
 >>> SeekError: Data digger can't go any further: KeyError
 Path traveled: dict -> machines -> 0 -> engine_2
