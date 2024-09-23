@@ -5,6 +5,10 @@ Safely navigate through unsafe data: dicts, tuples, lists, strings and objects
 
 Inspired on Ruby's [dig](https://www.rubydoc.info/stdlib/core/Hash:dig).
 
+```
+pip install py-data-digger
+```
+
 ## Why?
 ### TLDR: 
 Sometimes you don't want to deal with Python exceptions when accessing lists and dicts. If the data you need isn't there, you just want to **move on**...
