@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "py-data-digger"
-version = "0.1.0"
+version = "0.1.1"
 description = "Safely navigate through unsafe data: dicts, tuples, lists, strings and objects"
 authors = ["Ramon G. Dias <ramon.giovane@gmail.com>"]
 license = "MIT"
