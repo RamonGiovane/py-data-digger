@@ -83,17 +83,21 @@ def seek(
 
 
 def dig(
-    data: Union[Sequence, Mapping], *accessors: List[Any], dig_objects: bool = False
+    data: Union[Sequence, Mapping],
+    *accessors: List[Any],
+    dig_objects: bool = False,
+    default: object = None,
 ) -> object:
     """Safely navigate through the nested data.
 
-    If there is no key, index or attribute with a given accessor, returns None.
+    If there is no key, index or attribute with a given accessor, returns None or an user defined value.
 
     Parameters:
       data: The list, tuple, dict to be searched. By default it can't access object attributes
       accessors: The keys, indexes or attribute names (only if dig_objects is True) to be accessed
       dig_objects: If dig_objects is True, also tries to get an attribute of an object
       with the given name.
+      default: The value returned when the search fails. By default it's None.
 
     Examples:
     .. code-block:: python
@@ -122,11 +126,20 @@ def dig(
 
       dig(my_dict, 'item_with_object', 'age', dig_objects=True)
       >>> None
+
+    You may pass a custom default value:
+    .. code-block:: python
+      my_dict = {
+      'item_a': ['apple', 'pea'],
+      }
+
+      dig(my_dict, 'item_b', 'item_c', default={})
+      >>> {}
     """
     try:
         return seek(data, *accessors, seek_objects=dig_objects)
     except SeekError:
-        return None
+        return default
 
 
 def _look_for_object_attribute(
